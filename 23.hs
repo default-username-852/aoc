@@ -1,8 +1,8 @@
 import Utils
 import Data.List
 import Debug.Trace
-import qualified Data.Sequence as S
-import Data.Sequence (Seq ((:<|)), Seq((:|>)), elemIndexL, insertAt, (|>), (!?))
+import qualified Data.Map as M
+import Data.Map ((!))
 import Data.Maybe
 
 indata :: [Int]
@@ -11,22 +11,23 @@ indata = map (read . (:[])) "476138259"
 main :: IO ()
 main = print (part1 indata) >> print (part2 indata)
 
-part1 :: [Int] -> S.Seq Int
-part1 indata = (!! 100) $ iterate doMove' $ S.fromList indata
+part1 :: [Int] -> M.Map Int Int
+part1 indata = snd $ (!! 100) $ iterate (doMove $ maximum indata) (head indata, M.insert (last indata) (head indata) $ foldl (\m (from:to:_) -> M.insert from to m) M.empty $ windows 2 indata)
 
 part2 :: [Int] -> Int
-part2 indata = fromJust (found !? (oneIdx + 1)) * fromJust (found !? (oneIdx + 2))
+part2 indata = (lst ! 1) * (lst ! (lst ! 1))
     where
-        found = (!! 10000000) $ iterate doMove' $ S.fromList $ take 1000000 $ indata ++ [length indata + 1..]
-        Just oneIdx = elemIndexL 1 found
+        indata' = take 1000000 $ indata ++ [length indata + 1..]
+        (_, lst) = (!! 1000000) $ iterate (doMove $ maximum indata') (head indata', M.insert (last indata') (head indata') $ foldl (\m (from:to:_) -> M.insert from to m) M.empty $ windows 2 indata')
 
-doMove :: [Int] -> [Int]
-doMove all@(current:p1:p2:p3:rest) = let (some, found:others) = break (==finding) rest in some ++ [found] ++ [p1, p2, p3] ++ others ++ [current]
+doMove :: Int -> (Int, M.Map Int Int) -> (Int, M.Map Int Int)
+doMove maxn (current, lst) = (newCurrent, lst')
     where
-        Just finding = find (not . flip elem [p1, p2, p3]) $ [current - 1, current - 2 .. 1] ++ [length all, length all - 1 .. current]
-
-doMove' :: S.Seq Int -> S.Seq Int
-doMove' all@(current:<|p1:<|p2:<|p3:<|rest) = let Just idx = elemIndexL finding rest in inserter (idx + 1) rest |> current
-    where
-        Just finding = find (not . flip elem [p1, p2, p3]) $ [current - 1, current - 2 .. 1] ++ [length all, length all - 1 .. current]
-        inserter idx = insertAt idx p1 . insertAt idx p2 . insertAt idx p3
+        p1 = lst ! current
+        p2 = lst ! p1
+        p3 = lst ! p2
+        restHead = lst ! p3
+        Just finding = find (not . flip elem [p1, p2, p3]) $ [current - 1, current - 2 .. 1] ++ [maxn, maxn - 1 .. current]
+        newTail = lst ! finding
+        lst' = M.insert p3 newTail $ M.insert finding p1 $ M.insert current restHead lst
+        newCurrent = lst' ! current
