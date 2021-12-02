@@ -1,13 +1,18 @@
 import Utils
 
+type Indata = String
+
 main :: IO ()
 main = do
-    indata <- readFile ".in"
+    indata <- parseData <$> readFile ".in"
     print $ part1 indata
     print $ part2 indata
 
-part1 :: String -> Int
+parseData :: String -> Indata
+parseData = id
+
+part1 :: Indata -> Int
 part1 indata = 0
 
-part2 :: String -> Int
+part2 :: Indata -> Int
 part2 indata = 0
