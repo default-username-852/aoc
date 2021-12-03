@@ -1,5 +1,5 @@
 import Utils
-import Data.List (nub, maximumBy, transpose)
+import Data.List (transpose)
 import Data.Function (on)
 
 type Indata = [String]
