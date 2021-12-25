@@ -33,7 +33,7 @@ adjacent (x,y) = [ (x+1,y)
                  ]
 
 part1 :: Indata -> Int
-part1 indata = snd . fromJust $ dijkstra indata (0,0) (99, 99)
+part1 indata = snd . fromJust $ dijkstra (\n -> M.findWithDefault [] n indata) (0,0) (99, 99)
 
 part2 :: Indata -> Int
-part2 indata = snd . fromJust $ dijkstra indata (0,0) (499, 499)
+part2 indata = snd . fromJust $ dijkstra (\n -> M.findWithDefault [] n indata) (0,0) (499, 499)
