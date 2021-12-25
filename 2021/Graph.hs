@@ -8,7 +8,7 @@ import Data.Maybe
 type Graph a = M.Map a [a]
 type WeightedGraph a = M.Map a [(a, Int)]
 
-dijkstra :: Ord a => M.Map a [(a, Int)] -> a -> a -> Maybe ([a], Int)
+dijkstra :: Ord a => (a -> [(a, Int)]) -> a -> a -> Maybe ([a], Int)
 dijkstra graph at goal = 
     let (_, _, prevs) = fromJust . last . takeWhile isJust . iterate (>>=dijkstra_ graph) $ Just (H.singleton (0, at), S.empty, M.empty)
         prevNode node = fmap (fst) $ node `M.lookup` prevs
@@ -17,14 +17,14 @@ dijkstra graph at goal =
             then Just (reverse . fmap fromJust . takeWhile isJust . iterate (>>=prevNode) $ Just goal, snd $ prevs M.! goal)
             else Nothing
 
-dijkstra_ :: Ord a => M.Map a [(a, Int)] -> (H.MinPrioHeap Int a, S.Set a, M.Map a (a, Int)) -> Maybe (H.MinPrioHeap Int a, S.Set a, M.Map a (a, Int))
+dijkstra_ :: Ord a => (a -> [(a, Int)]) -> (H.MinPrioHeap Int a, S.Set a, M.Map a (a, Int)) -> Maybe (H.MinPrioHeap Int a, S.Set a, M.Map a (a, Int))
 dijkstra_ graph (frontier, visited, prevs) = 
     case H.view frontier of
         Nothing -> Nothing
         Just ((dist, on), frontier') -> if on `S.member` visited
             then Just (frontier', visited, prevs)
             else 
-                let neighbours = M.findWithDefault [] on graph
+                let neighbours = graph on
                     visited' = S.insert on visited
                     prevs' = foldl (\p (node, nDist) -> M.insertWith (\new@(_, newDist) old@(_, oldDist) -> if newDist < oldDist then new else old) node (on, dist + nDist) p) prevs neighbours
                     frontier'' = foldl (flip H.insert) frontier' $ fmap (\(node, cost) -> (cost + dist, node)) neighbours
