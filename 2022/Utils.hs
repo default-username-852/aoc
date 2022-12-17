@@ -1,4 +1,4 @@
-module Utils (binarySplit, windows, sublists, splitWhen, chunksOf) where
+module Utils (binarySplit, windows, sublists, splitWhen, chunksOf, modifyAt, insertAt) where
 
 import qualified Data.List as L
 
@@ -24,3 +24,9 @@ chunksOf _ [] = []
 chunksOf n l
     | n > 0 = (take n l) : (chunksOf n (drop n l))
     | otherwise = error "Negative or zero n"
+
+insertAt :: a -> Int -> [a] -> [a]
+insertAt new idx xs = let (h,t) = splitAt idx xs in h ++ [new] ++ tail t
+
+modifyAt :: (a -> a) -> Int -> [a] -> [a]
+modifyAt f idx xs = let (h,t:ts) = splitAt idx xs in h ++ [f t] ++ ts
