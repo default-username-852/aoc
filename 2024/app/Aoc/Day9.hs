@@ -4,6 +4,7 @@ import Data.Maybe (isJust, fromJust)
 import Data.Bifunctor (Bifunctor(bimap))
 import Data.Foldable (find)
 import Aoc.Utils (windows)
+import Prelude hiding (id)
 
 data File = File Integer Int | Empty Int deriving Show
 
