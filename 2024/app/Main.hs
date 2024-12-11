@@ -9,6 +9,7 @@ import qualified Aoc.Day7
 import qualified Aoc.Day8
 import qualified Aoc.Day9
 import qualified Aoc.Day10
+import qualified Aoc.Day11
 
 args :: Parser Int
 args = option auto (long "day" <> short 'd')
@@ -25,6 +26,7 @@ days =
     , Aoc.Day8.solve
     , Aoc.Day9.solve
     , Aoc.Day10.solve
+    , Aoc.Day11.solve
     ]
 
 main :: IO ()
