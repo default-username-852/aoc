@@ -11,6 +11,7 @@ import qualified Aoc.Day9
 import qualified Aoc.Day10
 import qualified Aoc.Day11
 import qualified Aoc.Day12
+import qualified Aoc.Day13
 import qualified Aoc.Day14
 
 args :: Parser Int
@@ -30,6 +31,7 @@ days =
     , Aoc.Day10.solve
     , Aoc.Day11.solve
     , Aoc.Day12.solve
+    , Aoc.Day13.solve
     , Aoc.Day14.solve
     ]
 
