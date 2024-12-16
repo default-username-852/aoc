@@ -4,7 +4,6 @@ import Linear
 import Data.Maybe (fromJust)
 import Data.List (find)
 import Prelude hiding (map)
-import Control.Monad
 
 type Indata = (Array (V2 Int) MapTile, V2 Int, [V2 Int])
 
@@ -96,7 +95,6 @@ makeBigMove movingTile moveDir map =
                 else pure map2
             pure $ map3 // mapUpdate
         BRobot -> error "tried to push robot"
-        --BRobot -> (// mapUpdate) <$> makeBigMove newPos moveDir map
 
 makeBigMoves :: [V2 Int] -> V2 Int -> Array (V2 Int) BigMapTile -> Array (V2 Int) BigMapTile
 makeBigMoves [] _ map = map

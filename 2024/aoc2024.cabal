@@ -33,6 +33,7 @@ executable day
                     , Aoc.Day13
                     , Aoc.Day14
                     , Aoc.Day15
+                    , Aoc.Day16
     -- other-extensions:
     build-depends:    base >=4.16 && <5
                     , containers >= 0.6 && < 0.7
@@ -40,5 +41,6 @@ executable day
                     , regex-tdfa >= 1.3 && < 2
                     , array ^>= 0.5
                     , linear >= 1 && < 2
+                    , search-algorithms ^>= 0.3.3
     hs-source-dirs:   app
     default-language: Haskell2010
