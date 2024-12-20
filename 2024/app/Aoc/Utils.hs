@@ -13,7 +13,7 @@ windows m = foldr (zipWith (:)) (repeat []) . take m . L.tails
 sublists :: [a] -> [[a]]
 sublists = (:) [] . concatMap (filter (not . null) . L.tails) . L.inits
 
-subsets :: [Int] -> [[Int]]
+subsets :: [a] -> [[a]]
 subsets []  = [[]]
 subsets (x:xs) = subsets xs ++ map (x:) (subsets xs)
 

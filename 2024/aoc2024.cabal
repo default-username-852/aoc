@@ -37,6 +37,7 @@ executable day
                     , Aoc.Day17
                     , Aoc.Day18
                     , Aoc.Day19
+                    , Aoc.Day20
     -- other-extensions:
     build-depends:    base >=4.16 && <5
                     , containers >= 0.6 && < 0.7
