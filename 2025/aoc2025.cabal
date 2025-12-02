@@ -19,6 +19,7 @@ executable day
     ghc-options: -threaded
     other-modules:    Aoc.Utils
                     , Aoc.Day1
+                    , Aoc.Day2
     -- other-extensions:
     build-depends:    base >=4.16 && <5
                     , containers >= 0.6 && < 0.7
